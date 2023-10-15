@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" type="text/css" href="todolist.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Todo List</h1>
+        <ul id="todo-list"></ul>
+        <div id="new-task">
+            <input type="text" id="task-input" placeholder="Add a new task">
+            <button id="add-task">Add</button>
+        </div>
+    </div>
+
+    <script>
+        const todoList = document.getElementById("todo-list");
+        const taskInput = document.getElementById("task-input");
+        const addTaskButton = document.getElementById("add-task");
+
+        addTaskButton.addEventListener("click", () => {
+            const taskText = taskInput.value.trim();
+            if (taskText !== "") {
+                const taskItem = document.createElement("li");
+                taskItem.classList.add("task");
+                taskItem.innerHTML = `
+                    <input type="checkbox">
+                    <span>${taskText}</span>
+                    <button>Delete</button>
+                `;
+                todoList.appendChild(taskItem);
+                taskInput.value = "";
+
+                const deleteButton = taskItem.querySelector("button");
+                deleteButton.addEventListener("click", () => {
+                    todoList.removeChild(taskItem);
+                });
+
+                const checkbox = taskItem.querySelector("input[type='checkbox']");
+                checkbox.addEventListener("change", () => {
+                    if (checkbox.checked) {
+                        taskItem.classList.add("completed");
+                    } else {
+                        taskItem.classList.remove("completed");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
